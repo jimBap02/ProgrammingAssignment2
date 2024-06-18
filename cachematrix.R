@@ -30,8 +30,27 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Write a short comment describing this function
+## cacheSolve returns the inverse of a cache matrix representation
+## as constructed with makeCacheMatrix. If the cache matrix already
+## has a locally stored inverse, it is returned; otherwise, the 
+## inverse is computed, stored in the cache matrix using its setinv
+## named function, and then returned.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    ## 'x'  a cache matrix representation as constructed with 
+    ##      makeCacheMatrix; x is ASSUMED to be invertible, and
+    ##      there is no error recovery from a non-invertible x 
+    ##      other than the failure of solve()
+    ## '...' other parameters to be passed to solve in computing
+    ##      the inverse.
+    
+    inv <- x$getinv()
+    if(!is.null(inv)) {
+        message("getting cached inverse")
+        return(inv)
+    }
+    matrix <- x$get()
+    inv <- solve(matrix,...)
+    x$setinv(inv)
+    inv
 }
