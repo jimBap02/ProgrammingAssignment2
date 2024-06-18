@@ -54,3 +54,22 @@ cacheSolve <- function(x, ...) {
     x$setinv(inv)
     inv
 }
+
+## TEST
+
+cm01<-makeCacheMatrix()
+cm01$get()
+
+m01<-matrix(c(0,1,-3,-3,-4,4,-2,-1,1),nrow=3,ncol=3)
+print(m01)
+
+cm01$set(m01)
+cm01x<-cm01$get()
+cm01x==m01
+
+cacheSolve(cm01)
+cm01xInv<-cm01$getinv()
+round(cm01x %*% cm01xInv,digits=15)==diag(3)
+
+cacheSolve(cm01)==cm01xInv
+
